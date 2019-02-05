@@ -6,7 +6,7 @@
 	<li>Download de .zip voor de nieuwste Dropsoft release.</li>
 	<li>Dropsoft plugin installeren
 		<ul>
-			<li>Upload alle bestanden uit de "upload" folder in de .zip naar de root folder van uw Wordpress webshop.</li>
+			<li>Upload alle bestanden uit de "upload" folder in de .zip naar de root folder van uw Wordpress website.</li>
 			<li>Ga dan naar uw Dashboard</li>
 			<li>Ga in het menu naar Plugins</li>
 			<li>Zoek naar "Dropsoft" en klik op Api code invoeren</li>
@@ -22,8 +22,8 @@
 <ul>
 	<li>Cronjobs instellen
 		<ul>
-			<li>/crons/cronjob.php</li>
-			<li>/crons/check-order.php</li>
+			<li>/cronjob.php</li>
+			<li>/check-order.php</li>
 		</ul>
 	</li>
 </ul>

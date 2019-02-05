@@ -12,7 +12,7 @@
 
 
 	$datumvandaag = date('d-m-Y');
-	$apicode = $mysqli->query("SELECT option_value FROM " . $table_prefix . "options WHERE option_name = 'fertiplantfulfilment'");
+	$apicode = $mysqli->query("SELECT option_value FROM " . $table_prefix . "options WHERE option_name = 'dropsoft'");
 	while($apiobject = mysqli_fetch_assoc($apicode)){
 		$option_value = $apiobject['option_value'];
 		$scccsarray = unserialize($option_value);
@@ -20,7 +20,7 @@
 
 	$api = $scccsarray['sccss-content'];
 
-	$orders = $mysqli->query("SELECT ID FROM " . $table_prefix . "posts WHERE post_type = 'shop_order' AND ferti = '0' AND post_status = 'wc-processing'");
+	$orders = $mysqli->query("SELECT ID FROM " . $table_prefix . "posts WHERE post_type = 'shop_order' AND dropsoft = '0' AND post_status = 'wc-processing'");
 	while($orderobject = mysqli_fetch_assoc($orders)){
 
 
@@ -47,7 +47,7 @@
 				$oudid = $checkproductobject['oudid'];
 			}
 
-			//Fertiplant Fulfilment producten in orderlines zetten
+			//Dropsoft producten in orderlines zetten
 			if($oudid != 0){
 				$producten[$arrayteller] = array(
 		        	'productcode'   => $oudid,
@@ -159,7 +159,7 @@
 		print_r($post_data);
 
 
-		$url = 'https://lev.fertiplant-fulfilment.nl/api/order/'.''.$api.'/false';
+		$url = 'https://leverancier.dropsoft.nl/api/order/'.''.$api.'/false';
 	    $curl = curl_init($url);
 	    curl_setopt($curl, CURLOPT_HEADER, false);
 	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -173,7 +173,7 @@
 
 	    if(!empty($json_response)){
 	      	if($json_response->status == "success"){
-	      		$mysqli->query("UPDATE " . $table_prefix . "posts SET ferti = '1' WHERE ID = '".$orderid."'");
+	      		$mysqli->query("UPDATE " . $table_prefix . "posts SET dropsoft = '1' WHERE ID = '".$orderid."'");
 	      	}
 	    }
 	}

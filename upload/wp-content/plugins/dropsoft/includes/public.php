@@ -5,7 +5,7 @@ if( ! defined( 'SCCSS_FILE' ) ) {
 	die();
 }
 
-function fertiplantfulfilment_import() {
+function dropsoft_import() {
 
 	if( ! isset( $_GET['sccss'] ) || intval( $_GET['sccss'] ) !== 1 ) {
 		return;
@@ -21,4 +21,4 @@ function fertiplantfulfilment_import() {
 	die();
 }
 
-add_action( 'plugins_loaded', 'fertiplantfulfilment_import' );
+add_action( 'plugins_loaded', 'dropsoft_import' );

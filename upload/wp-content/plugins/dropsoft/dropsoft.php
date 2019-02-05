@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Fertiplant Fulfilment importer
- * Description: Met deze plugin kan je via een api producten van Fertiplant Fulfilment importeren
+ * Plugin Name: Dropsoft
+ * Description: Met deze plugin kunt u de Dropsoft producten importeren
  * Version: 1.0
 */
 

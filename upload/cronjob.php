@@ -12,9 +12,9 @@
 	}
 
 	$mysqli->query("ALTER TABLE " . $table_prefix . "posts ADD oudid INT(11) NOT NULL AFTER comment_count");
-	$mysqli->query("ALTER TABLE " . $table_prefix . "posts ADD ferti INT(11) NOT NULL AFTER oudid");
+	$mysqli->query("ALTER TABLE " . $table_prefix . "posts ADD dropsoft INT(11) NOT NULL AFTER oudid");
 
-	$apicode = $mysqli->query("SELECT option_value FROM " . $table_prefix . "options WHERE option_name = 'fertiplantfulfilment'");
+	$apicode = $mysqli->query("SELECT option_value FROM " . $table_prefix . "options WHERE option_name = 'dropsoft'");
 	while($apiobject = mysqli_fetch_assoc($apicode)){
 		$option_value = $apiobject['option_value'];
 
@@ -28,7 +28,7 @@
 	$datumvandaag = date('Y-m-d H:i:s');
 	$datevandaag = date('Y-m-d');
 
-	$url = 'https://lev.fertiplant-fulfilment.nl/api/assortment/'.''.$api;
+	$url = 'https://leverancier.dropsoft.nl/api/assortment/'.''.$api;
 	$json = file_get_contents($url);
 	$obj = json_decode($json);
 

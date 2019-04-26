@@ -1,24 +1,67 @@
 <?php
 
-// Prevent direct file access
-if( ! defined( 'SCCSS_FILE' ) ) {
+// Make sure we don't expose any info if called directly
+if( ! defined( 'DROPSOFT_FILE' ) ) {
 	die();
 }
 
-function dropsoft_import() {
 
-	if( ! isset( $_GET['sccss'] ) || intval( $_GET['sccss'] ) !== 1 ) {
-		return;
-	}
-
-	ob_start();
-	header( 'Content-type: text/css' );
-	$options     = get_option( 'sccss_settings' );
-	$raw_content = isset( $options['sccss-content'] ) ? $options['sccss-content'] : '';
-	$content     = wp_kses( $raw_content, array( '\'', '\"' ) );
-	$content     = str_replace( '&gt;', '>', $content );
-	echo $content;
-	die();
+add_action('woocommerce_after_checkout_billing_form', 'customise_checkout_field' , 10, 1);
+function customise_checkout_field($checkout)
+{
+  echo '<div id="customise_checkout_field">';
+  woocommerce_form_field('datepicker', array(
+    'type' => 'text',
+    'class' => array(
+      'my-field-class form-row-wide'
+    ) ,
+    'label' => __('Delivery date') ,
+    'required' => true,
+  ) , $checkout->get_value('datepicker'));
+  echo '</div>';
 }
 
-add_action( 'plugins_loaded', 'dropsoft_import' );
+
+add_action( 'wp_head', 'my_header_scripts' );
+function my_header_scripts(){
+  ?>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript">
+    function noSundays(date) {
+      return [date.getDay() != 0, ''];
+}
+      jQuery( function() {
+        var skipDate = new Date();
+            var date = new Date();
+            var day = date.getDay();
+
+            var skipDagen =  0;
+            if(day == 5){
+              skipDagen = 4;
+            }else if(day == 6){
+              skipDagen = 3
+            }else{
+              skipDagen = 2;
+            }
+            skipDate.setDate(skipDate.getDate() + skipDagen);
+            normaalDatum = (skipDate.getMonth() + 1) + '/' + skipDate.getDate() + '/' +  skipDate.getFullYear();
+        jQuery("#datepicker").val(normaalDatum);
+        jQuery( "#datepicker" ).datepicker({
+        beforeShowDay: noSundays,
+        minDate: skipDate,
+         defaultDate: skipDate,
+      });
+    } );
+  </script>
+  <?php
+}
+
+
+
+add_action('woocommerce_checkout_update_order_meta',function( $order_id, $posted ) {
+  $delivery_date = sanitize_text_field( $_POST['datepicker'] );
+    $order = wc_get_order( $order_id );
+    $order->update_meta_data( '_delivery_date', $delivery_date );
+    $order->save();
+} , 10, 2);
